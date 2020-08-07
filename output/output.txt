@@ -1,0 +1,33 @@
+InferenceEngine: 0x7f9f5732e030
+[ INFO ] Parsing input parameters
+[ INFO ] Reading input
+[ INFO ] Loading device CPU
+	CPU
+	MKLDNNPlugin version ......... 2.1
+	Build ........... 2020.4.0-359-21e092122f4-releases/2020/4
+
+[ INFO ] Loading network files for Face Detection
+[ INFO ] Batch size is set to 1
+[ INFO ] Checking Face Detection network inputs
+[ INFO ] Checking Face Detection network outputs
+[ INFO ] Loading Face Detection model to the CPU device
+[ INFO ] Age/Gender DISABLED
+[ INFO ] Head Pose DISABLED
+[ INFO ] Loading network files for Emotions Recognition
+[ INFO ] Batch size is set to 16 for Emotions Recognition
+[ INFO ] Checking Emotions Recognition network inputs
+[ INFO ] Checking Emotions Recognition network outputs
+[ INFO ] Loading Emotions Recognition model to the CPU plugin
+[ INFO ] Facial Landmarks DISABLED
+[ INFO ] Start inference 
+To close the application, press 'CTRL+C' here or switch to the output window and press Q or Esc
+Emotion Names, neutral; Emotion, 0.060241
+Emotion Names, happy; Emotion, 0.003122
+Emotion Names, sad; Emotion, 0.117683
+Emotion Names, surprise; Emotion, 0.035019
+Emotion Names, anger; Emotion, 0.783934
+No more frames to process!
+[ INFO ] Number of processed frames: 1
+[ INFO ] Total image throughput: 30.8565 fps
+
+[ INFO ] Execution successful
