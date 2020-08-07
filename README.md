@@ -27,9 +27,9 @@ Please visit our DevMesh page as well: https://devmesh.intel.com/projects/motus
 
 Once you've downloaded Motus for the first time, you will need to everything up:
 
-	* Downloading the OpenVINO Pretrained Models
-	* Modifying and Building the Face Detection Demo
-	* Ensuring image directory is updated in run file
+* Downloading the OpenVINO Pretrained Models
+* Modifying and Building the Face Detection Demo
+* Ensuring image directory is updated in run file
 
 Luckily, running `sudo ./motus_setup.py` will complete the first two steps for you. In case *motus_setup.py* does not work, additional instructions on manually setting up Motus are provided below.
 
@@ -66,3 +66,56 @@ The first step is to copy the modified *visualizer.cpp* file available into this
 `sudo ./build_demos.sh`
 
 Now, all the executable demos should be contained in the directory `~/omz_demos_build/intel64/Release/`
+
+# Manually Setting up Motus
+In case `motus_setup.sh` does not work, here are some steps to manually setup Motus:
+
+## (1) Install Dependencies
+Make sure that you have numpy, pandas, and tensorflow installed using the following commands:
+
+`pip3 install numpy`
+
+`pip3 install pandas`
+
+`pip3 install tensorflow==1.5` If you have a version newer than tensorflow 1.5, then our `song_model.py` script might throw an error
+
+## (2) Run Song Model
+The second step to setting up Motus is to run the song classification model using the command:
+
+`python3 src/song_model.py`
+
+### How the Song Model Works
+
+This scripts collects the songs from our playlist on Spotify, trains the classification model, and runs all of the songs through the model to map them to emotions.  
+
+We use the Spotify for Developers API to access our playlist, which we are using to represent the Motus song library.  The Spotify API also sends back the features of each song, and we use specifically the 3 features related to mood for our model.  Those features are **danceability**, **energy**, and **valence**.
+
+To see the descriptions of the song features that Spotify API provides us, visit the reference docs here: https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-features/
+
+Our song classification model takes in the three features: danceability, energy, and valence, and outputs an emotion that best fits to each song.  The emotions it outputs are the same emotions that the facial recognition/emotions recognition model outputs: **happy**, **sad**, **neutral**, **angry**, **surprised**.
+
+You only need to run the *song_model.py* script once, because the songs only need to be classified once. Their classifications are then stored in a json file, which is accessed when finding a song that best matches the image uploaded.  Once you see a .json file in the /src directory, your model is all set and you are ready to run `run_detection.sh`.
+
+
+# Optional Personalizations
+
+Don't like the songs Motus recommends? Easy fix!  Here are some quick steps to take:
+
+## Step 1: Make a playlist on Spotify
+
+Put all of the songs that you like on this playlist.  Make it big.
+
+## Step 2: Connect your playlist with Motus
+
+On the Spotify desktop app, go to your playlist.  There should be a button with 3 dots near the top of the page. Click on the 3 dots, go to Share, and click "Copy Spotify URI". When you next paste from your clipboard, you should see something like "spotify:playlist:0sxxPBp8iOUBSuoj1pPkUI" The gibberish after playlist, in this case 0sxxPBp8iOUBSuoj1pPkUI, is your playlist's Spotify id.
+
+Go into the file `src/spotify_api_work.py`. At the top of the file you should see a line that says `playlist_id = '0sxxPBp8iOUBSuoj1pPkUI'`.  Replace 0sxxPBp8iOUBSuoj1pPkUI with your playlist's Spotify id.  Now Motus will output songs from your own library
+
+### Step 3 (OPTIONAL): Train model to your preferences
+
+If you think Motus is outputting the right songs but at the wrong times, go into the `src/model_data.py` file and check out the training and testing data.  If you associate a song with a different mood, then go ahead and change it. If you want to add your own songs to the training data, add them to the end of the dictionary using the format `{'song_name:mood'}`  Make sure the songs added to the training and testing data are also in your playlist.
+
+# Enjoy
+
+We hope you have a great time using Motus! 
+
